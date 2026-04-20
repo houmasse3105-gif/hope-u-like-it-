@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Hanan ✦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&family=Zen+Old+Mincho:wght@400;500;900&family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="sky-canvas"></canvas>
+<canvas id="dust-canvas"></canvas>
+
+<!-- Overlay البداية -->
+<div id="start-overlay">
+  <div class="overlay-title">A small moment<br>made just for you.</div>
+  <div class="overlay-sub">touch anywhere to begin</div>
+  <button class="start-btn" onclick="startExperience()">Begin ✦</button>
+</div>
+
+<!-- تلميح السكرول -->
+<div class="scroll-hint" id="scroll-hint">
+  <span>scroll</span>
+  <div class="scroll-arrow"></div>
+</div>
+
+<main>
+
+  <!-- Scene 2: الاسم -->
+  <section class="scene" id="scene-2">
+    <div class="scene-text">
+      <span class="name-glow">Hanan</span>
+      <p class="line-sub" style="margin-top:1.6rem;">
+        You bring a quiet kind of light<br>into the world.
+      </p>
+    </div>
+  </section>
+
+  <div class="scene-sep"><div class="sep-inner"></div></div>
+
+  <!-- Scene 3: الطب والشفاء -->
+  <section class="scene" id="scene-3">
+    <div class="scene-text">
+      <span class="heart-icon">🩺</span>
+      <p class="line-intro">some people choose to heal</p>
+      <p class="line-main">for you,<P></P>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-dot" style="opacity:.45;width:3px;height:3px"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-line right"></div>
+      </div>
+      <p class="line-sub">it was never just a career —<br>it was always a kind of love.</p>
+    </div>
+  </section>
+
+  <div class="scene-sep"><div class="sep-inner"></div></div>
+
+  <!-- Scene 4: الموسيقى والكمان -->
+  <section class="scene" id="scene-4">
+    <canvas id="violin-canvas"></canvas>
+    <div class="scene-text" style="position:relative;z-index:2">
+      <p class="line-intro">not everything beautiful needs to be loud.</p>
+      <p class="line-main">some things</p>
+      <p class="line-sub" style="transition-delay:1s;">
+        are meant to be felt quietly.
+      </p>
+    </div>
+  </section>
+
+  <div class="scene-sep"><div class="sep-inner"></div></div>
+
+  <!-- Scene 5: زهرة الليلي -->
+  <section class="scene" id="scene-5">
+   
+    <div class="scene-text">
+      <p class="line-main">ただ存在しているだけで、美しいものもある。</p>
+    </div>
+  </section>
+
+  <div class="scene-sep"><div class="sep-inner"></div></div>
+
+  <!-- Scene 6: عيد الميلاد — مع أنيميشن الصورة عند السكرول -->
+  <section class="scene" id="scene-6">
+
+    <!--
+      صورة الزهور: تحتاج إلى ملف صورة باسم flowers.jpg في نفس المجلد.
+      الأنيميشن يظهر الصورة تدريجياً من الأسفل للأعلى مع السكرول (clip-path + fade + scale).
+      يمكنك استبدال flowers.jpg بأي صورة زهور تريدها.
+    -->
+    <div class="flowers-bg"></div>
+
+    <!-- المحتوى الرئيسي فوق الصورة -->
+    <div class="scene-text">
+      <p class="line-intro" style="transition-delay:.2s;">with all the warmth a page can hold —</p>
+      <p class="birthday-text">Happy Birthday, Hana.</p>
+      <span class="cake-emoji">🎂</span>
+      <p class="end-fade">May this year be gentle with you,
+the way you are with the world..</p>
+      <div class="ornament" style="margin-top:2rem;transition-delay:2s;">
+        <div class="ornament-line"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-dot" style="opacity:.45;width:3px;height:3px"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-line right"></div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

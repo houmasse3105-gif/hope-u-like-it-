@@ -1,0 +1,312 @@
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --gold:       #b89860;
+  --text-main:  #2e2418;
+  --text-soft:  #5c4830;
+  --text-muted: #8c7050;
+  --ease-out:   cubic-bezier(0.22,1,0.36,1);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Sorts Mill Goudy', 'Shippori Mincho', Georgia, serif;
+  overflow-x: hidden;
+  cursor: default;
+  background: #b8cfe8;
+}
+
+/* ── Fixed canvas layers ── */
+#sky-canvas, #dust-canvas {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+#sky-canvas  { z-index: 0; }
+#dust-canvas { z-index: 1; }
+
+main { position: relative; z-index: 2; }
+
+/* ── Scenes ── */
+.scene {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  padding: 6rem 2rem;
+  position: relative;
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 1.5s var(--ease-out), transform 1.5s var(--ease-out);
+}
+.scene.visible { opacity:1; transform:translateY(0); }
+
+.scene-text {
+  text-align: center; max-width: 660px; width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative;
+}
+.line-intro {
+  font-size: clamp(1.05rem,2.4vw,1.4rem); font-style: italic;
+  color: var(--text-soft); letter-spacing:.05em; line-height:2;
+  opacity:0; transform:translateY(14px);
+  transition: opacity 1.3s var(--ease-out) .25s, transform 1.3s var(--ease-out) .25s;
+}
+.scene.visible .line-intro { opacity:1; transform:translateY(0); }
+.line-main {
+  font-family: 'Zen Old Mincho', serif;
+  font-size: clamp(2.2rem,5.5vw,3.8rem); font-weight:400;
+  color: var(--text-main); letter-spacing:.05em; line-height:1.3; margin-top:.75rem;
+  opacity:0; transform:translateY(18px);
+  transition: opacity 1.3s var(--ease-out) .45s, transform 1.3s var(--ease-out) .45s;
+}
+.scene.visible .line-main { opacity:1; transform:translateY(0); }
+.line-sub {
+  font-size: clamp(.95rem,2.2vw,1.2rem); font-style:italic;
+  color: var(--text-soft); margin-top:1.2rem; line-height:2; letter-spacing:.03em;
+  opacity:0; transform:translateY(14px);
+  transition: opacity 1.3s var(--ease-out) .7s, transform 1.3s var(--ease-out) .7s;
+}
+.scene.visible .line-sub { opacity:1; transform:translateY(0); }
+
+/* ── Ornament ── */
+.ornament {
+  margin:1.8rem auto; display:flex; align-items:center; gap:10px;
+  opacity:0; transition: opacity 1.3s var(--ease-out) 1.1s;
+}
+.scene.visible .ornament { opacity:1; }
+.ornament-line { width:50px; height:1px; background:linear-gradient(90deg,transparent,var(--gold)); }
+.ornament-line.right { background:linear-gradient(90deg,var(--gold),transparent); }
+.ornament-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); }
+
+.scene-sep {
+  display:flex; justify-content:center; padding:1.2rem 0;
+  position:relative; z-index:2; opacity:.22;
+}
+.sep-inner { width:1px; height:52px; background:linear-gradient(to bottom,transparent,var(--gold),transparent); }
+
+/* ── Scene 2: Name ── */
+#scene-2 .name-glow {
+  font-family: 'Zen Old Mincho', serif;
+  font-size: clamp(4rem,11vw,8rem); font-weight:400; letter-spacing:.16em;
+  color: var(--text-main); line-height:1; display:inline-block; position:relative;
+  opacity:0; transform:scale(.94);
+  transition: opacity 2s var(--ease-out) .35s, transform 2s var(--ease-out) .35s;
+}
+#scene-2.visible .name-glow { opacity:1; transform:scale(1); }
+#scene-2 .name-glow::after {
+  content:''; position:absolute; inset:-25% -12%;
+  background:radial-gradient(ellipse,rgba(220,195,145,.3) 0%,transparent 68%);
+  z-index:-1; border-radius:50%;
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* ── Scene 3 ── */
+#scene-3 .heart-icon {
+  font-size:3rem; display:block; margin-bottom:1rem;
+  animation: heartbeat 4s ease-in-out infinite;
+  opacity:0; transition: opacity 1.3s var(--ease-out) .2s;
+}
+#scene-3.visible .heart-icon { opacity:1; }
+
+/* ── Scene 4: Violin ── */
+#scene-4 { position:relative; overflow:hidden; }
+#violin-canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+  pointer-events:none; opacity:0;
+  transition: opacity 2.4s var(--ease-out) .4s;
+}
+#scene-4.visible #violin-canvas { opacity:1; }
+
+/* ── Scene 5: Lily ── */
+#scene-5 { position:relative; }
+.lily-wrap {
+  position:relative; width:160px; height:220px;
+  margin:0 auto 2.2rem;
+  animation: float-lily 7s ease-in-out infinite;
+  opacity:0; transform:translateY(20px);
+  transition: opacity 1.8s var(--ease-out) .3s, transform 1.8s var(--ease-out) .3s;
+}
+#scene-5.visible .lily-wrap { opacity:1; transform:translateY(0); }
+.lily-glow {
+  position:absolute; inset:-25%;
+  background:radial-gradient(ellipse,rgba(255,252,230,.5) 0%,transparent 60%);
+  border-radius:50%; animation:glow-pulse 5s ease-in-out infinite; pointer-events:none;
+}
+.japanese {
+  font-family:'Shippori Mincho',serif; font-size:clamp(1rem,2.5vw,1.3rem);
+  color:var(--text-soft); letter-spacing:.2em; margin-top:.9rem; line-height:2;
+  opacity:0; transition: opacity 1.4s var(--ease-out) 1.2s;
+}
+#scene-5.visible .japanese { opacity:1; }
+
+/* ══════════════════════════════════════════
+   SCENE 6 — BIRTHDAY
+══════════════════════════════════════════ */
+#scene-6 {
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* صورة الزهور - تظهر مع السكرول بأنيميشن */
+.flowers-bg {
+  position:absolute;
+  inset:0;
+  background-image: url("flowers.jpg");
+  background-size: cover;
+  background-position: center center;
+  mix-blend-mode: normal;
+  opacity:0;
+  filter: saturate(0.85) brightness(1.05) blur(0px);
+  pointer-events:none;
+  z-index: 0;
+  transform: scale(1.12) translateY(40px);
+  transition: opacity 0s, transform 0s;
+}
+
+/* أنيميشن الصورة عند السكرول */
+.flowers-bg.scroll-reveal {
+  animation: flowerRevealScroll 2.4s var(--ease-out) forwards;
+}
+
+@keyframes flowerRevealScroll {
+  0% {
+    opacity: 0;
+    transform: scale(1.12) translateY(40px);
+    filter: saturate(0) brightness(1.3) blur(12px);
+    clip-path: inset(100% 0% 0% 0%);
+  }
+  20% {
+    opacity: 0.3;
+    clip-path: inset(65% 0% 0% 0%);
+    filter: saturate(0.2) brightness(1.2) blur(8px);
+  }
+  55% {
+    opacity: 0.6;
+    clip-path: inset(20% 0% 0% 0%);
+    transform: scale(1.05) translateY(15px);
+    filter: saturate(0.6) brightness(1.1) blur(3px);
+  }
+  100% {
+    opacity: 0.78;
+    transform: scale(1) translateY(0);
+    clip-path: inset(0% 0% 0% 0%);
+    filter: saturate(0.85) brightness(1.05) blur(0px);
+  }
+}
+
+/* تأثير gradient mask فوق الصورة */
+.flowers-bg::after {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.70) 20%,
+      rgba(255,255,255,0.25) 50%,
+      rgba(255,255,255,0.10) 75%,
+      rgba(255,255,255,0.05) 100%
+    ),
+    linear-gradient(to right,
+      rgba(255,255,255,0.55) 0%,
+      rgba(255,255,255,0)   18%,
+      rgba(255,255,255,0)   82%,
+      rgba(255,255,255,0.55) 100%
+    );
+}
+
+/* Content sits above flowers */
+#scene-6 .scene-text { position:relative; z-index:3; }
+
+.birthday-text {
+  font-family:'Zen Old Mincho','Shippori Mincho',serif;
+  font-size:clamp(2.8rem,8vw,6rem); font-weight:400;
+  color:var(--text-main); letter-spacing:.08em; line-height:1.2;
+  opacity:0; transform:translateY(24px) scale(.97);
+  transition: opacity 2s var(--ease-out) .35s, transform 2s var(--ease-out) .35s;
+  text-shadow: 0 2px 20px rgba(255,250,240,0.9), 0 0 40px rgba(255,250,240,0.7);
+}
+#scene-6.visible .birthday-text { opacity:1; transform:translateY(0) scale(1); }
+
+.cake-emoji {
+  font-size:clamp(3.5rem,9vw,6rem); display:block; margin-top:.6rem;
+  animation: sway 5s ease-in-out infinite;
+  opacity:0; transition: opacity 1.6s var(--ease-out) .9s;
+}
+#scene-6.visible .cake-emoji { opacity:1; }
+
+.end-fade {
+  margin-top:2rem; font-size:clamp(.9rem,2vw,1.1rem);
+  color:var(--text-soft); font-style:italic; letter-spacing:.09em;
+  opacity:0; transition: opacity 2s var(--ease-out) 1.7s;
+  text-shadow: 0 1px 12px rgba(255,250,240,0.95);
+}
+#scene-6.visible .end-fade { opacity:1; }
+
+/* ── Scroll Hint ── */
+.scroll-hint {
+  position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
+  z-index:8; display:flex; flex-direction:column; align-items:center; gap:6px;
+  opacity:0; transition:opacity 1s var(--ease-out); pointer-events:none;
+}
+.scroll-hint.show { opacity:1; }
+.scroll-hint span { font-size:.68rem; letter-spacing:.16em; color:var(--text-muted); text-transform:uppercase; font-style:italic; }
+.scroll-arrow {
+  width:16px; height:16px;
+  border-right:1.5px solid var(--gold); border-bottom:1.5px solid var(--gold);
+  transform:rotate(45deg); animation:bounce-arrow 2.2s ease-in-out infinite;
+}
+
+/* ── Start Overlay ── */
+#start-overlay {
+  position:fixed; inset:0; z-index:200;
+  background: radial-gradient(ellipse at 50% 40%,rgba(255,245,228,.45) 0%,transparent 65%),
+              linear-gradient(160deg,#c0d4e8 0%,#d8e4ef 30%,#e8dcc8 65%,#dcc8a8 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.6rem;
+  transition: opacity 1.8s var(--ease-out), visibility 1.8s var(--ease-out);
+}
+#start-overlay.hidden { opacity:0; visibility:hidden; }
+.overlay-title {
+  font-family:'Zen Old Mincho',serif; font-size:clamp(1.6rem,4.5vw,2.7rem);
+  font-weight:300; color:var(--text-main); letter-spacing:.05em; text-align:center; line-height:1.5;
+}
+.overlay-sub { font-size:.95rem; color:var(--text-soft); font-style:italic; letter-spacing:.07em; }
+.start-btn {
+  background:rgba(255,252,244,.6); border:1px solid rgba(184,152,96,.55); border-radius:36px;
+  padding:.7rem 2.2rem; font-family:'Zen Old Mincho',serif; font-size:1.05rem;
+  color:var(--text-main); cursor:pointer; letter-spacing:.09em;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  transition: background .35s ease, transform .3s ease, box-shadow .35s ease;
+  box-shadow:0 1px 16px rgba(184,152,96,.14);
+}
+.start-btn:hover { background:rgba(255,252,244,.9); transform:scale(1.03); }
+
+/* ── Animations ── */
+@keyframes breathe {
+  0%,100% { transform:scale(1);    opacity:.5; }
+  50%      { transform:scale(1.06); opacity:.75; }
+}
+@keyframes heartbeat {
+  0%,100% { transform:scale(1); }
+  15%  { transform:scale(1.12); }
+  30%  { transform:scale(1); }
+  45%  { transform:scale(1.07); }
+  60%  { transform:scale(1); }
+}
+@keyframes float-lily {
+  0%,100% { transform:translateY(0)  rotate(-1deg); }
+  50%      { transform:translateY(-12px) rotate(1deg); }
+}
+@keyframes glow-pulse {
+  0%,100% { opacity:.55; transform:scale(1); }
+  50%      { opacity:.85; transform:scale(1.05); }
+}
+@keyframes sway {
+  0%,100% { transform:rotate(-2.5deg); }
+  50%      { transform:rotate(2.5deg); }
+}
+@keyframes bounce-arrow {
+  0%,100% { transform:rotate(45deg) translateY(0); }
+  50%      { transform:rotate(45deg) translateY(5px); }
+}
+
+@media (max-width:600px) {
+  .scene { padding:3.5rem 1.6rem; }
+}
